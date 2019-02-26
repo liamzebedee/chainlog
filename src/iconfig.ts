@@ -1,0 +1,70 @@
+// interface IConfig {
+// 	rpcUrl: string;
+// 	contractSources: string;
+// 	contractArtifacts: string;
+// 	contractAddresses: string;
+// }
+// simple yaml file
+
+const yaml = require('js-yaml');
+import {
+	readFileSync,
+	existsSync
+} from 'fs';
+
+import {
+	resolve
+} from 'path'
+
+import { Map, Set } from 'immutable';
+
+
+export class Config {
+	contractSources: string[];
+
+	contractArtifactsPath: string;
+	contractAddresses: Map<string, Set<string>>;
+	watchNewContracts: boolean;
+	rpcUrl: string;
+
+	constructor() {
+	}
+
+	static load(): Config {
+		let configPath = './chainlog.yml'
+		if(process.argv.length == 3) {
+			configPath = process.argv[2];
+		}
+
+		try {
+			let doc = yaml.safeLoad(readFileSync(resolve(configPath), 'utf8'));
+			// console.log('config', doc);
+			
+			let config = new Config
+			config.rpcUrl = doc.rpcUrl;
+			config.contractArtifactsPath = resolve(doc.contracts.artifacts)
+			// if(!existsSync(config.contractArtifactsPath)) throw new Error(`contractArtifactsPath: ${config.contractArtifactsPath} doesn't exist`)
+			// console.log(`loading from ${config.contractArtifactsPath}`)
+			
+			let addresses = Map<string, Set<string>>();
+
+			doc.contracts.addresses.map(obj => {
+				let [ contractName, address ] = Object.entries(obj)[0]
+				addresses = addresses.update(
+					contractName, 
+					Set<string>(), 
+					(s: Set<string>) => s.add(address as string)
+				)
+			})
+			config.contractAddresses = addresses;
+
+			config.watchNewContracts = doc.contracts.watch_new;
+
+			// console.log(config)
+			return config;
+
+		} catch (e) {
+			console.log(e);
+		}
+	}
+}

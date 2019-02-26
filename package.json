@@ -1,0 +1,22 @@
+{
+  "private": true,
+  "scripts": {
+    "watch": "tsc -W",
+    "start": "node --no-deprecation lib/src/index.js"
+  },
+  "dependencies": {
+    "@types/immutable": "^3.8.7",
+    "blessed": "^0.1.81",
+    "blessed-contrib": "^4.8.11",
+    "chalk": "^2.4.2",
+    "ethers": "^4.0.26",
+    "fast-glob": "^2.2.6",
+    "immutable": "^4.0.0-rc.12",
+    "js-yaml": "^3.12.1",
+    "react": "^16.8.3",
+    "react-blessed": "^0.5.0",
+    "ts-node": "^8.0.2",
+    "typescript": "^3.3.3333",
+    "web3": "^1.0.0-beta.46"
+  }
+}

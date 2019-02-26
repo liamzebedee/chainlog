@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "rootDir": ".",
+        "outDir": "lib/",
+        "lib": [
+            "es2018"
+        ],
+        "typeRoots": [
+          "node_modules/@types"
+        ],
+        "target": "es2018",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "inlineSourceMap": true,
+        "jsx": "react",
+        "allowJs": true
+    },
+    "include": [
+        "src"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
