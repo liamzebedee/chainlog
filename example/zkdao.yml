@@ -1,0 +1,7 @@
+rpcUrl: http://localhost:8545
+contracts:
+  artifacts: /Users/liamz/Documents/open-source/zkdao/AZTEC/packages/protocol/build/contracts/*.json
+  addresses:
+    - ZKDAO: '0x66527D12f51FD1652Be5bC68619a942194E25075'
+  watch_new: true
+  truffle: true

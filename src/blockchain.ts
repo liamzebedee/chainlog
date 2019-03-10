@@ -19,6 +19,7 @@ export class Blockchain {
     addresses = Map<string, string>()
 
     events = new EventEmitter();
+    truffle: boolean;
 
     constructor(rpcUrl: string) {
         this.rpcUrl = rpcUrl;
@@ -28,6 +29,7 @@ export class Blockchain {
         this.provider = new ethers.providers.JsonRpcProvider(this.rpcUrl);
         this.provider.polling = true;
         this.provider.pollingInterval = 500;
+        await this.provider.getBlock('latest')
         const CONNECT_TIMEOUT = 7500;
 
         await new Promise((res, rej) => {
@@ -48,6 +50,8 @@ export class Blockchain {
     async loadContracts(
         conf: Config
     ) {
+        this.truffle = conf.truffle;
+
         const artifactFiles = fastglob.sync(
             [ conf.contractArtifactsPath ],
             { onlyFiles: true, absolute: true }
@@ -87,7 +91,7 @@ export class Blockchain {
     private loadContractInstance(addr: string, name: string) {
         let c = new ethers.Contract(
             addr,
-            this.artifacts.get(name).compilerOutput.abi,
+            this.getArtifactInfo(this.artifacts.get(name)).abi,
             this.provider
         )
         this.contracts = this.contracts.set(addr, c);
@@ -104,9 +108,12 @@ export class Blockchain {
         if(rec.contractAddress) {
             let code = await this.provider.getCode(rec.contractAddress)
             // console.log(`deployed`, code)
+            // console.log(rec)
             let entry = this.artifacts.findEntry((artifact, name) => {
-                return artifact.compilerOutput.evm.deployedBytecode.object === code
+                return this.getArtifactInfo(artifact).deployedBytecode === code
             })
+
+            
             
             if(entry) {
                 let [ name, _ ] = entry;
@@ -223,7 +230,28 @@ export class Blockchain {
 
         this.events.emit(ev.eventKey, ev)
     }
+
+    private getArtifactInfo(artifact: any): ArtifactInfo {
+        if(this.truffle) {
+            return {
+                abi: artifact.abi,
+                deployedBytecode: artifact.deployedBytecode
+            }
+        } else {
+            return {
+                abi: artifact.compilerOutput.abi,
+                deployedBytecode: artifact.compilerOutput.evm.deployedBytecode.object
+            }
+        }
+    }
 }
+
+type ArtifactInfo = {
+    abi: any[];
+    deployedBytecode: string;
+}
+
+
 
 type Event = {
     eventKey: string;

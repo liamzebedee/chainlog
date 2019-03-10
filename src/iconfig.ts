@@ -22,6 +22,7 @@ import { Map, Set } from 'immutable';
 export class Config {
 	contractSources: string[];
 
+	truffle: false;
 	contractArtifactsPath: string;
 	contractAddresses: Map<string, Set<string>>;
 	watchNewContracts: boolean;
@@ -59,6 +60,8 @@ export class Config {
 			config.contractAddresses = addresses;
 
 			config.watchNewContracts = doc.contracts.watch_new;
+
+			config.truffle = doc['contracts']['truffle'] || false;
 
 			// console.log(config)
 			return config;

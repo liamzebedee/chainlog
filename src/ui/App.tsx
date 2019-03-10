@@ -30,22 +30,22 @@ export class App extends Component {
     // @ts-ignore
     let { chain } = this.props;
 
-    chain.events.on('event', (ev: ContractEventEmitted) => {
-      console.log(ev)
-      this.setState({
-        logs: this.state.logs.push(
-          [ ev.name, `${ev.evname}(${ev.ev.args.join(',')})` ]
-        )
-      })
-    });
+    // chain.events.on('event', (ev: ContractEventEmitted) => {
+    //   console.log(ev)
+    //   this.setState({
+    //     logs: this.state.logs.push(
+    //       [ ev.name, `${ev.evname}(${ev.ev.args.join(',')})` ]
+    //     )
+    //   })
+    // });
 
-    chain.events.on('call', (ev: ContractFunctionCalled) => {
-      this.setState({
-        logs: this.state.logs.push(
-          [ ev.name, `${ev.txdesc.name}(${ev.txdesc.args.join(',')})` ]
-        )
-      })
-    });
+    // chain.events.on('call', (ev: ContractFunctionCalled) => {
+    //   this.setState({
+    //     logs: this.state.logs.push(
+    //       [ ev.name, `${ev.txdesc.name}(${ev.txdesc.args.join(',')})` ]
+    //     )
+    //   })
+    // });
     
   }
 
