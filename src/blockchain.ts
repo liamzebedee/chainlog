@@ -9,6 +9,9 @@ const fastglob = require('fast-glob');
 const chalk = require('chalk');
 
 
+// import { RPCSubprovider, Web3ProviderEngine } from '0x.js';
+// import { RevertTraceSubprovider, SolCompilerArtifactAdapter } from '@0x/sol-trace';
+
 export class Blockchain {
     rpcUrl: string;
     provider: ethers.providers.JsonRpcProvider;
@@ -148,30 +151,6 @@ export class Blockchain {
 
 
     listen = async (c: ethers.Contract, addr: string) => {
-        // listen to contract calls
-        // let contractCalls = {
-        //     address: c.address,
-        //     topics: Object.values(c.interface.functions).map(desc => {
-        //         return desc.signature
-        //     })
-        // }
-        // this.provider.on(contractCalls, (res) => {
-        //     // decode
-        //     // : TransactionDescription
-        // })
-
-
-
-        // Object.values(c.interface.functions).map(func => {
-        //     let call = {
-        //         address: c.address,
-        //         // topics: [func.sighash]
-        //     }
-        //     this.provider.on(call, (res) => {
-        //         console.log(res)
-                
-        //     })
-        // })
         
         // listen to events
         let self = this;

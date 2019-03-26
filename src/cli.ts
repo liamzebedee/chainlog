@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import Web3 from 'web3';
 import { Config } from './iconfig';
 import { Blockchain } from './blockchain';
@@ -8,22 +9,27 @@ export class Program {
     chain: Blockchain;
 
     constructor() {
-        this.conf = Config.load()
+        let configPath = './chainlog.yml'
+		 
+		const argv = require('minimist')(process.argv.slice(2), {
+			string: 'config'
+		});
+
+		// chainlog --config x.yml
+		if(!argv.config) throw new Error("--config PATH not specified")
+        configPath = argv.config;
+        
+        this.conf = Config.load(configPath)
         this.chain = new Blockchain(this.conf.rpcUrl)
     }
 
     async run() {
         await this.chain.connect()
-        // console.log('Connected!');
         
         // now load all contracts
         await this.chain.loadContracts(
             this.conf
         )
-
-        // renderTerminalUI({
-        //     chain: this.chain
-        // })
     }
 
     async stop() {
@@ -31,3 +37,14 @@ export class Program {
     }
 }
 
+
+let program = new Program()
+program.run()
+.then(() => {})
+.catch(ex => {
+    throw ex
+})
+
+process.on('exit', async () => {
+    await program.stop()
+})

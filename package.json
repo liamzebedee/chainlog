@@ -1,10 +1,18 @@
 {
-  "private": true,
+  "name": "chainlog",
+  "version": "0.1.0",
   "scripts": {
+    "build": "tsc -b tsconfig.json",
     "watch": "tsc -W",
     "start": "node --no-deprecation lib/src/index.js"
   },
+  "main": "lib/src/index.js",
+  "bin": {
+    "chainlog": "lib/src/cli.js"
+  },
   "dependencies": {
+    "0x.js": "^6.0.5",
+    "@0x/sol-trace": "^2.0.10",
     "@types/immutable": "^3.8.7",
     "blessed": "^0.1.81",
     "blessed-contrib": "^4.8.11",
@@ -13,6 +21,7 @@
     "fast-glob": "^2.2.6",
     "immutable": "^4.0.0-rc.12",
     "js-yaml": "^3.12.1",
+    "minimist": "^1.2.0",
     "react": "^16.8.3",
     "react-blessed": "^0.5.0",
     "ts-node": "^8.0.2",

@@ -31,13 +31,9 @@ export class Config {
 	constructor() {
 	}
 
-	static load(): Config {
-		let configPath = './chainlog.yml'
-		if(process.argv.length == 3) {
-			configPath = process.argv[2];
-		}
-
+	static load(configPath: string): Config {
 		try {
+			console.log(`Loading config from ${resolve(configPath)}`)
 			let doc = yaml.safeLoad(readFileSync(resolve(configPath), 'utf8'));
 			// console.log('config', doc);
 			

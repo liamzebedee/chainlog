@@ -1,6 +1,7 @@
-rpcUrl: http://localhost:10000
+rpcUrl: http://localhost:11001
 contracts:
   artifacts: ./../../packages/contracts/build/artifacts/*.json
   addresses:
-    - EventEmitter: '0x2559d11bbcaf82b35848876e0bd66eddc8c337e5'
+    - Bridge: '0xcb59ba9417ec5e42b1fdaa952e62457bccb65790'
+    - EventListener: '0x99349f177fa95d5db73cf873b82ba6c79d2254df'
   watch_new: true
